@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import '@/styles/globals.css';
 import { sans, serif } from '@/lib/fonts';
 import { getDictionary, isLocale, locales } from '@/i18n/dictionaries';
+import { asset } from '@/lib/asset';
 
 export const dynamicParams = false;
 
@@ -30,7 +31,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       locale,
       type: 'website',
     },
-    icons: { icon: '/favicon.svg' },
+    icons: { icon: asset('/favicon.svg') },
   };
 }
 
