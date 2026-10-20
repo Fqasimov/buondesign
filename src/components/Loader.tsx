@@ -92,7 +92,7 @@ export function Loader({ label, tagline }: Props) {
 
     const quick = html.classList.contains('intro-seen') || prefersReducedMotion();
     if (quick) {
-      ready.then(() => gsap.to(el, { autoAlpha: 0, duration: 0.45, ease: 'power2.out', onComplete: finish }));
+      ready.then(() => gsap.to(el, { autoAlpha: 0, duration: 0.3, ease: 'power2.out', onComplete: finish }));
       return;
     }
 
@@ -115,14 +115,14 @@ export function Loader({ label, tagline }: Props) {
 
       const intro = gsap.timeline();
       intro
-        .fromTo(q('.loader__b'), { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.6, ease: 'expo.out' }, 0.1)
-        .fromTo(q('.loader__d'), { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.6, ease: 'expo.out' }, 0.25)
-        .fromTo(q('.loader__word'), { autoAlpha: 0, letterSpacing: '0.7em' }, { autoAlpha: 1, letterSpacing: '0.42em', duration: 0.8, ease: 'expo.out' }, 0.3)
-        .to(q('.loader__word'), { autoAlpha: 0, duration: 0.25, ease: 'power1.out' }, 0.95)
-        .addLabel('build', 0.9)
-        .to(mark, { ...toDoor(), duration: 0.75, ease: 'power3.inOut' }, 'build')
-        .to(lines, { strokeDashoffset: 0, duration: 0.6, ease: 'power2.out', stagger: { amount: 0.4 } }, 'build+=0.1')
-        .to(door, { fillOpacity: 1, duration: 0.3, ease: 'power1.out' }, 'build+=0.55');
+        .fromTo(q('.loader__b'), { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.45, ease: 'expo.out' }, 0.05)
+        .fromTo(q('.loader__d'), { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.45, ease: 'expo.out' }, 0.15)
+        .fromTo(q('.loader__word'), { autoAlpha: 0, letterSpacing: '0.7em' }, { autoAlpha: 1, letterSpacing: '0.42em', duration: 0.6, ease: 'expo.out' }, 0.15)
+        .to(q('.loader__word'), { autoAlpha: 0, duration: 0.2, ease: 'power1.out' }, 0.62)
+        .addLabel('build', 0.6)
+        .to(mark, { ...toDoor(), duration: 0.55, ease: 'power3.inOut' }, 'build')
+        .to(lines, { strokeDashoffset: 0, duration: 0.4, ease: 'power2.out', stagger: { amount: 0.2 } }, 'build')
+        .to(door, { fillOpacity: 1, duration: 0.2, ease: 'power1.out' }, 'build+=0.4');
 
       Promise.all([intro.then(), ready]).then(() => {
         // Walk through the facade door into the real door of the walkthrough.
@@ -139,11 +139,11 @@ export function Loader({ label, tagline }: Props) {
             scale: s,
             x: h ? h.left + h.width / 2 - cx : 0,
             y: h ? h.top + h.height / 2 - cy : 0,
-            duration: 0.9,
+            duration: 0.65,
             ease: 'power3.inOut',
           })
-          .to(q('.loader__lines'), { autoAlpha: 0, duration: 0.5, ease: 'power1.in' }, 0.15)
-          .to(el, { autoAlpha: 0, duration: 0.35, ease: 'power1.out' }, 0.75);
+          .to(q('.loader__lines'), { autoAlpha: 0, duration: 0.35, ease: 'power1.in' }, 0.1)
+          .to(el, { autoAlpha: 0, duration: 0.25, ease: 'power1.out' }, 0.5);
       });
     }, el);
 

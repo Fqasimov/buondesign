@@ -899,26 +899,45 @@ html:not(.js) .loader {
 .disciplines {
   position: relative;
   margin-top: clamp(80px, 14vh, 150px);
-  border-top: 1px solid var(--line-on-ink);
+}
+.disciplines ol {
+  border-bottom: 1px solid var(--line-on-ink);
 }
 .disciplines__row {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: baseline;
   gap: 24px;
   padding: clamp(22px, 3.4vh, 36px) 0;
-  border-bottom: 1px solid var(--line-on-ink);
   transition: color 200ms ease;
 }
+.disciplines__rule {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, var(--brass) 0 12%, var(--line-on-ink) 12%);
+  transform-origin: left;
+}
 .disciplines__name {
+  display: block;
+  overflow: hidden;
+  /* room for descenders and the İ dot inside the mask */
+  padding: 0.12em 0 0.08em;
+  margin: -0.12em 0 -0.08em;
   font-family: var(--font-serif);
   font-weight: 300;
   font-size: var(--step-4);
   line-height: 1;
 }
+.disciplines__name-inner {
+  display: inline-block;
+  transition: translate 350ms var(--ease-out);
+}
 .disciplines__text {
   color: var(--muted-on-ink);
   max-width: 34ch;
+  transition: color 200ms ease;
 }
 .disciplines__thumb {
   display: none;
@@ -939,12 +958,16 @@ html:not(.js) .loader {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 250ms ease;
+  scale: 1.08;
+  transition:
+    opacity 200ms ease,
+    scale 450ms var(--ease-out);
 }
 .disciplines__preview[data-active='0'] picture:nth-child(1),
 .disciplines__preview[data-active='1'] picture:nth-child(2),
 .disciplines__preview[data-active='2'] picture:nth-child(3) {
   opacity: 1;
+  scale: 1;
 }
 .disciplines__preview img {
   width: 100%;
@@ -956,6 +979,12 @@ html:not(.js) .loader {
     color: var(--muted-on-ink);
   }
   .disciplines ol:hover .disciplines__row:hover {
+    color: var(--cream);
+  }
+  .disciplines__row:hover .disciplines__name-inner {
+    translate: 14px 0;
+  }
+  .disciplines__row:hover .disciplines__text {
     color: var(--cream);
   }
 }
@@ -1240,14 +1269,14 @@ html:not(.js) .loader {
   background: var(--brass);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 1100ms var(--ease-out) calc(var(--i) * 120ms);
+  transition: transform 800ms var(--ease-out) calc(var(--i) * 80ms);
 }
 .step > * {
   opacity: 0;
   transform: translateY(14px);
   transition:
-    opacity 900ms var(--ease-out) calc(var(--i) * 120ms + 200ms),
-    transform 900ms var(--ease-out) calc(var(--i) * 120ms + 200ms);
+    opacity 650ms var(--ease-out) calc(var(--i) * 80ms + 120ms),
+    transform 650ms var(--ease-out) calc(var(--i) * 80ms + 120ms);
 }
 [data-reveal][data-in] .step::before {
   transform: scaleX(1);

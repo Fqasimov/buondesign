@@ -17,7 +17,7 @@ const ROOMS: { media: MediaName; ar: number; fx: number; fy: number; ox: number;
 const ENTRY: [number, number] = [20, 34];
 
 // Scroll length per timeline second, in viewport heights.
-const VH_PER_UNIT = 0.42;
+const VH_PER_UNIT = 0.34;
 
 type Props = { t: Dictionary['tour'] };
 
@@ -77,56 +77,56 @@ export function Walkthrough({ t }: Props) {
       const tl = gsap.timeline({ defaults: { ease: 'none' } });
 
       // 1 · The doors open inward, warm light spills onto the plaster.
-      tl.to(q('.door__leaf--l'), { rotateY: 84, duration: 1.1, ease: 'power2.inOut' }, 0)
-        .to(q('.door__leaf--r'), { rotateY: -84, duration: 1.1, ease: 'power2.inOut' }, 0)
-        .to(q('.door__spill'), { autoAlpha: 1, duration: 0.8 }, 0.25)
-        .to(q('.tour__intro'), { autoAlpha: 0, y: -48, duration: 0.7, ease: 'power1.in' }, 0)
+      tl.to(q('.door__leaf--l'), { rotateY: 84, duration: 0.8, ease: 'power2.inOut' }, 0)
+        .to(q('.door__leaf--r'), { rotateY: -84, duration: 0.8, ease: 'power2.inOut' }, 0)
+        .to(q('.door__spill'), { autoAlpha: 1, duration: 0.5 }, 0.2)
+        .to(q('.tour__intro'), { autoAlpha: 0, y: -48, duration: 0.5, ease: 'power1.in' }, 0)
         .to(q('.tour__cue'), { autoAlpha: 0, duration: 0.3 }, 0);
 
       // 2 · The camera walks through the doorway.
-      tl.to(wall, { scale: pushScale, duration: 1.5, ease: 'power2.in' }, 1)
-        .to(wall, { autoAlpha: 0, duration: 0.2 }, 2.3)
-        .fromTo(frames[0], { scale: 1.12 }, { scale: 1, duration: 1.5, ease: 'power2.out' }, 1)
-        .to(q('.hud__plan'), { autoAlpha: 1, duration: 0.4 }, 2.2);
+      tl.to(wall, { scale: pushScale, duration: 1.1, ease: 'power2.in' }, 0.7)
+        .to(wall, { autoAlpha: 0, duration: 0.15 }, 1.65)
+        .fromTo(frames[0], { scale: 1.12 }, { scale: 1, duration: 1.1, ease: 'power2.out' }, 0.7)
+        .to(q('.hud__plan'), { autoAlpha: 1, duration: 0.3 }, 1.6);
 
       // 3 · Room by room.
-      let at = 2.3;
+      let at = 1.7;
       ROOMS.forEach((_, i) => {
         if (i > 0) {
-          tl.to(frames[i - 1], { scale: 1.45, duration: 1.1, ease: 'power2.in' }, at)
-            .to(scenes[i - 1], { autoAlpha: 0, duration: 0.5 }, at + 0.6)
-            .to(scenes[i], { clipPath: 'inset(0% 0% 0% 0%)', autoAlpha: 1, duration: 1.1, ease: 'power2.inOut' }, at)
-            .fromTo(frames[i], { scale: 0.9 }, { scale: 1, duration: 1.1, ease: 'power2.out' }, at)
-            .to(huds[i - 1], { autoAlpha: 0, y: -16, duration: 0.4 }, at);
-          at += 1;
+          tl.to(frames[i - 1], { scale: 1.45, duration: 0.8, ease: 'power2.in' }, at)
+            .to(scenes[i - 1], { autoAlpha: 0, duration: 0.35 }, at + 0.45)
+            .to(scenes[i], { clipPath: 'inset(0% 0% 0% 0%)', autoAlpha: 1, duration: 0.8, ease: 'power2.inOut' }, at)
+            .fromTo(frames[i], { scale: 0.9 }, { scale: 1, duration: 0.8, ease: 'power2.out' }, at)
+            .to(huds[i - 1], { autoAlpha: 0, y: -16, duration: 0.3 }, at);
+          at += 0.75;
         }
-        tl.to(huds[i], { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power2.out' }, at)
-          .to(dot, { x: ROOMS[i].plan[0], y: ROOMS[i].plan[1], duration: 0.8, ease: 'power2.inOut' }, at - 0.6)
+        tl.to(huds[i], { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power2.out' }, at)
+          .to(dot, { x: ROOMS[i].plan[0], y: ROOMS[i].plan[1], duration: 0.6, ease: 'power2.inOut' }, at - 0.45)
           .to(planRooms[i], { fillOpacity: 1, duration: 0.4 }, at)
-          .to(frames[i], { scale: 1.08, duration: 2.2 }, at);
+          .to(frames[i], { scale: 1.08, duration: 1.7 }, at);
         scenes[i].querySelectorAll('.note').forEach((note, k) => {
-          const s = at + 0.25 + k * 0.3;
-          tl.to(note.querySelector('.note__line'), { scaleY: 1, duration: 0.3, ease: 'power2.out' }, s)
-            .to(note, { autoAlpha: 1, duration: 0.3 }, s)
-            .to(note, { autoAlpha: 0, duration: 0.3 }, at + 1.9);
+          const s = at + 0.15 + k * 0.22;
+          tl.to(note.querySelector('.note__line'), { scaleY: 1, duration: 0.25, ease: 'power2.out' }, s)
+            .to(note, { autoAlpha: 1, duration: 0.25 }, s)
+            .to(note, { autoAlpha: 0, duration: 0.25 }, at + 1.45);
         });
         if (i > 0) tl.to(planRooms[i - 1], { fillOpacity: 0, duration: 0.4 }, at);
-        at += 2.2;
+        at += 1.7;
       });
 
       // 4 · Outro over the last room.
-      tl.to(q('.tour__shade'), { autoAlpha: 1, duration: 0.8 }, at)
+      tl.to(q('.tour__shade'), { autoAlpha: 1, duration: 0.6 }, at)
         .to(huds[ROOMS.length - 1], { autoAlpha: 0, duration: 0.4 }, at)
         .to(q('.hud__plan'), { autoAlpha: 0, duration: 0.4 }, at)
-        .fromTo(q('.tour__outro'), { autoAlpha: 0, y: 32 }, { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power2.out' }, at + 0.3)
-        .to({}, { duration: 0.8 });
+        .fromTo(q('.tour__outro'), { autoAlpha: 0, y: 32 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out' }, at + 0.2)
+        .to({}, { duration: 0.5 });
 
       const st = ScrollTrigger.create({
         trigger: el,
         pin,
         start: 'top top',
         end: () => `+=${window.innerHeight * tl.duration() * VH_PER_UNIT}`,
-        scrub: 0.6,
+        scrub: 0.35,
         animation: tl,
         anticipatePin: 1,
         invalidateOnRefresh: true,
@@ -140,9 +140,9 @@ export function Walkthrough({ t }: Props) {
       const intro = gsap.from(q('.tour__intro > *, .tour__cue'), {
         autoAlpha: 0,
         y: 28,
-        duration: 1.1,
+        duration: 0.8,
         ease: 'expo.out',
-        stagger: 0.08,
+        stagger: 0.06,
         paused: true,
       });
       const play = () => intro.play();
